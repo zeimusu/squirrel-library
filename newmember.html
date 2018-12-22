@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Create a new member</title>
+    </head>
+    <body>
+        <h1>Create a new member</h1>
+        <form method="POST" action="/insert">
+            <input type="hidden" value="member" name="table">
+            <table>
+                <tr><td>First Name</td><td><input name="firstName" type="text"></td></tr>
+                <tr><td>Surname</td><td><input name="surname" type="text"></td></tr>
+                <tr><td>Membership Class</td>
+                    <td><select name="membershipclass">
+                            <option value="Regular">Regular</option>
+                            <option value="Long loan">Long Loan</option>
+                            <option value="Librarian">Librarian</option>
+                        </select>
+                    </td></tr>
+            </table>
+            <input type="submit">
+        </form>
+    </body>
+</html>
+
+
+              
+          
