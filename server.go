@@ -82,6 +82,34 @@ func insertNewGenre(w http.ResponseWriter, r *http.Request, db *myDB) {
 	fmt.Fprintf(w, html, genreName, id)
 }
 
+func insertNewMember(w http.ResponseWriter, r *http.Request, db *myDB) {
+
+	firstName := r.FormValue("firstname")
+	surname := r.FormValue("surname")
+	membershipClass := r.FormValue("membershipclass")
+
+	if len(firstName) <= 0 || len(surname) <= 1 {
+		errorHandler(w, r, 500)
+		return
+	}
+	//get all membershipclasses from dbase
+	//check membershipclass is among them
+
+	id, err := insertMember(db.db, surname, firstName, membershipClass)
+	if err != nil {
+		errorHandler(w, r, 500)
+	}
+	html := `<!doctype html>
+<html><head><title>Success</title><head>
+<body>
+<p>You updated the members table with %v %v in class %v.</p>
+<p>The server returned %v.</p>
+<p>Return <a href="/">home</a></p>
+</body>
+</html>`
+	fmt.Fprintf(w, html, firstName, surname, membershipClass, id)
+}
+
 func handleNewGenre(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "newgenre.html")
 }
