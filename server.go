@@ -53,11 +53,10 @@ func (db *myDB) handleInsert(w http.ResponseWriter, r *http.Request) {
 		insertNewGenre(w, r, db)
 		return
 	}
-	/*
-		if tableName == "member" {
-			insertNewMember(w,r,db)
-			return
-		}*/
+	if tableName == "member" {
+		insertNewMember(w, r, db)
+		return
+	}
 	errorHandler(w, r, 404)
 }
 
