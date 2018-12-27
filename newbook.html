@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Create a new book</title>
+    </head>
+    <body>
+        <h1>Create a new book</h1>
+        <form method="POST" action="/bookinsert">
+            <input type="hidden" value="book" name="table">
+            <table>
+                <tr><td>ISBN</td><td><input name="IDBN" type="text"></td></tr>
+                <tr><td>Title</td><td><input name="Title" type="text"></td></tr>
+                <tr><td>Author surname</td><td><input name="surname" type="text"></td></tr>
+                <tr><td>Author first names</td><td><input name="firstName" type="text"></td></tr>
+                <tr><td>Dewey code</td><td><input name="dewey" type="text"></td></tr>
+                <tr><td>Format</td>
+                    <td><select name="format">
+                            <option value="Hardback">Hardback</option>
+                            <option value="Paperback">Paperback</option>
+                            <option value="CD">CD</option>
+                        </select>
+                    </td></tr>
+                <tr><td>Genres</td><td><input name="genrelist" type="text"></td></tr>
+                <tr><td>Number of copies</td><td><input name="numcopies" type="text"></td></tr>
+            </table>
+            <input type="submit">
+        </form>
+    </body>
+</html>
+
+
+              
+          
