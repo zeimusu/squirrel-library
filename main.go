@@ -29,6 +29,12 @@ func main() {
 	err = db.Ping()
 	checkErr(err)
 
-	mydb := &myDB{db: db}
-	mydb.server()
+	err = insertBook(db, "9780857503626", "Past Tense", "", "Paperback", "Thriller,Mystery", [][3]string{[3]string{"Child", "Lee", "Author"}}, 1)
+	checkErr(err)
+
+	/*
+		mydb := &myDB{db: db}
+		mydb.server()
+		fmt.Println(isbn.To13("0340897301"))
+	*/
 }

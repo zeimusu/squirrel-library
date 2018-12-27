@@ -45,6 +45,7 @@ func (db *myDB) handleShowTable(w http.ResponseWriter, r *http.Request) {
 func (db *myDB) handleInsert(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
+		fmt.Println(err.Error())
 		errorHandler(w, r, 500)
 		return
 	}
@@ -83,11 +84,12 @@ func insertNewGenre(w http.ResponseWriter, r *http.Request, db *myDB) {
 
 func insertNewMember(w http.ResponseWriter, r *http.Request, db *myDB) {
 
-	firstName := r.FormValue("firstname")
+	firstName := r.FormValue("firstName")
 	surname := r.FormValue("surname")
-	membershipClass := r.FormValue("membershipclass")
+	membershipClass := r.FormValue("membershipClass")
 
 	if len(firstName) <= 0 || len(surname) <= 1 {
+		fmt.Printf("invalid membername. got firstname='%v' surname='%v'", firstName, surname)
 		errorHandler(w, r, 500)
 		return
 	}
