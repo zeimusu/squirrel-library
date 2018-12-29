@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 //Default page handler
@@ -111,12 +112,56 @@ func insertNewMember(w http.ResponseWriter, r *http.Request, db *myDB) {
 	fmt.Fprintf(w, html, firstName, surname, membershipClass, id)
 }
 
+func (db *myDB) handleInsertBook(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		errorHandler(w, r, 500)
+	}
+	htmlHead := `<!doctype html>
+<html><head><title>Success</title><head>
+<body>`
+	htmlFoot := "</body></html>"
+	w.Write([]byte(htmlHead))
+	w.Write([]byte("<table>"))
+	for key, value := range r.Form {
+		fmt.Fprintf(w, "<tr><td>%v</td><td>%v</td></tr>", key, value)
+	}
+	w.Write([]byte("</table>"))
+	w.Write([]byte(htmlFoot))
+
+	authors := make([][3]string, 0)
+	authors = append(authors, [3]string{
+		r.FormValue("surname"),
+		r.FormValue("firstName"),
+		r.FormValue("role"),
+	})
+	copies, err := strconv.Atoi(r.FormValue("numcopies"))
+	if err != nil {
+		errorHandler(w, r, 500)
+	}
+
+	err = insertBook(
+		db.db,
+		r.FormValue("ISBN"),
+		r.FormValue("title"),
+		r.FormValue("dewey"),
+		r.FormValue("format"),
+		r.FormValue("genrelist"),
+		authors,
+		copies,
+	)
+}
+
 func handleNewGenre(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "newgenre.html")
 }
 
 func handleNewMember(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "newmember.html")
+}
+
+func handleNewBook(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "newbook.html")
 }
 
 func (db *myDB) server() {
@@ -129,6 +174,8 @@ func (db *myDB) server() {
 	http.HandleFunc("/insert", db.handleInsert)
 	http.HandleFunc("/newgenre", handleNewGenre)
 	http.HandleFunc("/newmember", handleNewMember)
+	http.HandleFunc("/newbook", handleNewBook)
+	http.HandleFunc("/insertbook", db.handleInsertBook)
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
