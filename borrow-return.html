@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Borrow or return a book</title>
+    </head>
+    <body>
+        <h1>Borrow a book</h1>
+        <form method="post" action="/borrowbook">
+            <input type="hidden" value="borrow" name="action">
+            <table>
+                <tr><td>book id</td><td><input name="bookid" type="text"></td></tr>
+                <tr><td>member id id</td><td><input name="bookid" type="text"></td></tr>
+            </table>
+            <input type="submit">
+        </form>
+        <h1>Return a book</h1>
+        <form method="post" action="/returnbook">
+            <input type="hidden" value="return" name="action">
+            <table>
+                <tr><td>book id</td><td><input name="bookid" type="text"></td></tr>
+            </table>
+            <input type="submit">
+        </form>
+    </body>
+</html>
+
+
+              
+          
