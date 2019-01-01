@@ -2,11 +2,9 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/moraes/isbn"
 )
 
 //Type to hold the reference to the database. I can put methods on
@@ -34,7 +32,10 @@ func main() {
 	//	err = insertBook(db, "9780857503626", "Past Tense", "", "Paperback", "Thriller,Mystery", [][3]string{[3]string{"Child", "Lee", "Author"}}, 1)
 	//	checkErr(err)
 
+	//	overdue, err := returnBook(db, 2)
+	//	checkErr(err)
+	//	fmt.Println(overdue, "days")
+
 	mydb := &myDB{db: db}
 	mydb.server()
-	fmt.Println(isbn.To13("0340897301"))
 }
