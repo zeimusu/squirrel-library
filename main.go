@@ -22,7 +22,7 @@ func checkErr(err error) {
 }
 
 func main() {
-	db, err := sql.Open("mysql", "jk:chamame@/library")
+	db, err := sql.Open("mysql", "jk@/library")
 	checkErr(err)
 	defer db.Close()
 
