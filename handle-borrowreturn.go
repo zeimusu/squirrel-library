@@ -9,18 +9,20 @@ import (
 func (db *myDB) handleBorrow(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
-		errorHandler(w, r, 500)
+		errorHandler(w, r, 500, err.Error())
 	}
 
 	borrower := r.FormValue("memberID")
 	borrowerID, err := strconv.Atoi(borrower)
 	if err != nil {
-		errorHandler(w, r, 500)
+		errorHandler(w, r, 500, err.Error())
+		return
 	}
 	book := r.FormValue("bookID")
 	bookID, err := strconv.Atoi(book)
 	if err != nil {
-		errorHandler(w, r, 500)
+		errorHandler(w, r, 500, err.Error())
+		return
 	}
 	due, err := borrowBook(db.db, int64(bookID), int64(borrowerID))
 	if err != nil {
@@ -40,13 +42,15 @@ func (db *myDB) handleBorrow(w http.ResponseWriter, r *http.Request) {
 func (db *myDB) handleReturn(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
-		errorHandler(w, r, 500)
+		errorHandler(w, r, 500, err.Error())
+		return
 	}
 
 	book := r.FormValue("bookID")
 	bookID, err := strconv.Atoi(book)
 	if err != nil {
-		errorHandler(w, r, 500)
+		errorHandler(w, r, 500, err.Error())
+		return
 	}
 
 	overdueDays, err := returnBook(db.db, int64(bookID))

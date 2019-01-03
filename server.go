@@ -18,8 +18,8 @@ func (db *myDB) server() {
 	http.HandleFunc("/newmember", handleNewMember)
 	http.HandleFunc("/newbook", handleNewBook)
 	http.HandleFunc("/borrow-return", handleBorrowReturn)
-	http.HandleFunc("/borrow", db.handleBorrow)
-	http.HandleFunc("/return", db.handleReturn)
+	http.HandleFunc("/borrowbook", db.handleBorrow)
+	http.HandleFunc("/returnbook", db.handleReturn)
 	http.HandleFunc("/insertbook", db.handleInsertBook)
 
 	log.Fatal(http.ListenAndServe(":8080", nil))

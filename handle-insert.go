@@ -11,7 +11,7 @@ func (db *myDB) handleInsert(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
 		fmt.Println(err.Error())
-		errorHandler(w, r, 500)
+		errorHandler(w, r, 500, err.Error())
 		return
 	}
 	tableName := r.FormValue("table")
@@ -23,18 +23,18 @@ func (db *myDB) handleInsert(w http.ResponseWriter, r *http.Request) {
 		insertNewMember(w, r, db)
 		return
 	}
-	errorHandler(w, r, 404)
+	errorHandler(w, r, 404, "")
 }
 
 func insertNewGenre(w http.ResponseWriter, r *http.Request, db *myDB) {
 	genreName := r.FormValue("genre")
 	if len(genreName) <= 1 {
-		errorHandler(w, r, 500)
+		errorHandler(w, r, 500, "Genre name empty")
 		return
 	}
 	id, err := insertGenre(db.db, genreName)
 	if err != nil {
-		errorHandler(w, r, 500)
+		errorHandler(w, r, 500, err.Error())
 	}
 	html := `<!doctype html>
 <html><head><title>Success</title><head>
@@ -54,8 +54,8 @@ func insertNewMember(w http.ResponseWriter, r *http.Request, db *myDB) {
 	membershipClass := r.FormValue("membershipClass")
 
 	if len(firstName) <= 0 || len(surname) <= 1 {
-		fmt.Printf("invalid membername. got firstname='%v' surname='%v'", firstName, surname)
-		errorHandler(w, r, 500)
+
+		errorHandler(w, r, 500, fmt.Sprintf("invalid membername. got firstname='%v' surname='%v'", firstName, surname))
 		return
 	}
 	//get all membershipclasses from dbase
@@ -63,7 +63,7 @@ func insertNewMember(w http.ResponseWriter, r *http.Request, db *myDB) {
 
 	id, err := insertMember(db.db, surname, firstName, membershipClass)
 	if err != nil {
-		errorHandler(w, r, 500)
+		errorHandler(w, r, 500, err.Error())
 	}
 	html := `<!doctype html>
 <html><head><title>Success</title><head>
@@ -79,7 +79,7 @@ func insertNewMember(w http.ResponseWriter, r *http.Request, db *myDB) {
 func (db *myDB) handleInsertBook(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
-		errorHandler(w, r, 500)
+		errorHandler(w, r, 500, err.Error())
 	}
 	htmlHead := `<!doctype html>
 <html><head><title>Success</title><head>
@@ -101,7 +101,7 @@ func (db *myDB) handleInsertBook(w http.ResponseWriter, r *http.Request) {
 	})
 	copies, err := strconv.Atoi(r.FormValue("numcopies"))
 	if err != nil {
-		errorHandler(w, r, 500)
+		errorHandler(w, r, 500, err.Error())
 	}
 
 	err = insertBook(

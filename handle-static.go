@@ -11,10 +11,13 @@ func handleLibrary(w http.ResponseWriter, r *http.Request) {
 }
 
 //Error page handler
-func errorHandler(w http.ResponseWriter, r *http.Request, status int) {
+func errorHandler(w http.ResponseWriter, r *http.Request, status int, message string) {
 	w.WriteHeader(status)
 	if status == http.StatusNotFound {
 		fmt.Fprint(w, "custom 404")
+	}
+	if status == http.StatusInternalServerError {
+		fmt.Fprintf(w, "<h2>Server Error</h2><p>Server responded with:<p><blockquote>%v</blockquote>", message)
 	}
 }
 

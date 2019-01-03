@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 )
 
@@ -20,10 +19,10 @@ func (db *myDB) handleShowTable(w http.ResponseWriter, r *http.Request) {
 	if table == "genres" {
 		allGenres, err := showAllGenres(db.db)
 		if err != nil {
-			log.Fatal(err)
+			errorHandler(w, r, 500, err.Error())
 		}
 		w.Write([]byte(fmt.Sprintf(htmlTemplate, "Genres", allGenres)))
 	} else {
-		errorHandler(w, r, 404)
+		errorHandler(w, r, 404, "")
 	}
 }
